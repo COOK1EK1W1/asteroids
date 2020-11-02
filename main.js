@@ -48,8 +48,8 @@ class Asteroid{
 }
 
 function setup(){
-    for (var i = 0; i < 10;i++){
-        asteroids.push(new Asteroid(Math.floor(Math.random() * width), Math.floor(Math.random() * height), Math.floor(Math.random() * 15 + 5)));
+    for (var i = 0; i < 50;i++){
+        asteroids.push(new Asteroid(Math.floor(Math.random() * width), Math.floor(Math.random() * height), Math.floor(Math.random() * 30 + 15)));
         asteroids[i].draw();
     }
 }
@@ -65,13 +65,15 @@ function step(){
                 var a = (asteroids[i].x - asteroids[x].x);
                 var b = (asteroids[i].y - asteroids[x].y);
                 var c = Math.sqrt(Math.abs(a * a + b * b));
+                if (c < asteroids[i].mass * 2 + asteroids[x].mass * 2){
+                }else{
                 var FORCE = -G * ((asteroids[i].mass * asteroids[x].mass) / (c * c));
                 var ACCELERATION = FORCE / asteroids[i].mass;
                 var scale = c / ACCELERATION;
                 vector[0] += a / scale;
                 vector[1] += b / scale;
                 
-                
+            }
             }
             
         }
