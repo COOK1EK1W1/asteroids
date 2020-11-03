@@ -22,10 +22,11 @@ class Asteroid{
         this.mass = mass;
         this.xv = 0;
         this.yv = 0;
+        this.colour = '#'+Math.floor(Math.random()*16777215).toString(16);
     }
 
     draw(){
-        ctx.fillStyle = "white";
+        ctx.fillStyle = this.colour;
         ctx.strokeStyle = "white";
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.mass, 0, 2*Math.PI);
