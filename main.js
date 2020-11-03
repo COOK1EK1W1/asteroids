@@ -51,8 +51,8 @@ class Asteroid{
 }
 
 function setup(){
-    for (var i = 0; i < 2;i++){
-        asteroids.push(new Asteroid(Math.floor(Math.random() * width), Math.floor(Math.random() * height), Math.floor(Math.random() * 1000 + 300)));
+    for (var i = 0; i < 3;i++){
+        asteroids.push(new Asteroid(Math.floor(Math.random() * width), Math.floor(Math.random() * height), Math.floor(Math.random() * 10000 + 300)));
         asteroids[i].draw();
     }
 }
@@ -69,25 +69,33 @@ function step(){
                 var b = (asteroids[i].y - asteroids[x].y);
                 var c = Math.sqrt(Math.abs(a * a + b * b));
                 if (c < asteroids[i].radius + asteroids[x].radius){
+                    //x is the asteroid that is being hit
+                    //i is the asteroid hitting x
 					if (asteroids[i].has_bouced == false){
 						asteroids[i].has_bouced = true;
-						asteroids[x].has_bouced = true;
-						var rx = asteroids[x].x - asteroids[i].x;
-						var ry = asteroids[x].y - asteroids[i].y;
+                        asteroids[x].has_bouced = true;
+                        //relative to x
+						var rx = asteroids[i].x - asteroids[x].x;
+						var ry = asteroids[i].y - asteroids[x].y;
 						var rlen = Math.sqrt(rx*rx+ry*ry);
 						var scale = rlen / asteroids[i].radius;
-						
-						ctx.fillStyle = "red";
-						ctx.strokeStyle = "white";
-						ctx.beginPath();
-						ctx.arc(asteroids[i].x + rx / scale, asteroids[i].y + ry / scale, 200, 0, 2*Math.PI);
-						ctx.fill();
-						ctx.stroke();
-						console.log(rx * scale, ry * scale);
-						//var rxv = asteroids[x].xv - asteroids[i].xv;
-						//var ryv = asteroids[x].yv - asteroids[i].yv;
+                    
+
+                        var intersectionx = asteroids[x].x + rx / scale;
+                        var intersectiony = asteroids[x].y + ry / scale;
+                        
+                        var x1 = (asteroids[i].xv * (asteroids[i].mass - asteroids[x].mass) + (2 * asteroids[x].mass * asteroids[x].xv)) / (asteroids[i].mass + asteroids[x].mass);
+                        var y1 = (asteroids[i].yv * (asteroids[i].mass - asteroids[x].mass) + (2 * asteroids[x].mass * asteroids[x].yv)) / (asteroids[i].mass + asteroids[x].mass);
+                        var x2 = (asteroids[x].xv * (asteroids[x].mass - asteroids[i].mass) + (2 * asteroids[i].mass * asteroids[i].xv)) / (asteroids[i].mass + asteroids[x].mass);
+                        var y2 = (asteroids[x].yv * (asteroids[x].mass - asteroids[i].mass) + (2 * asteroids[i].mass * asteroids[i].yv)) / (asteroids[i].mass + asteroids[x].mass);
+
+                        asteroids[i].xv = x1;
+                        asteroids[i].yv = y1;
+                        asteroids[x].xv = x2;
+                        asteroids[x].yv = y2;
 					}
                 }else{
+                
                 var FORCE = -G * ((asteroids[i].mass * asteroids[x].mass) / (c * c));
                 var ACCELERATION = FORCE / asteroids[i].mass;
                 var scale = c / ACCELERATION;
@@ -105,7 +113,8 @@ function step(){
     for (var i = 0; i < asteroids.length; i++){
         asteroids[i].stepa();
         asteroids[i].draw();
-		asteroids[i].has_bouced = false;
+        asteroids[i].has_bouced = false;
+		
     }
 }
 setup();
