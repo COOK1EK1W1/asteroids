@@ -1,8 +1,15 @@
 var canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
+var audio = [];
+for (var i = 0; i < 1000; i++){
+	audio.push(new Audio('Voice 002.m4a'));
+}
+
 var height = window.innerHeight;
 var width = window.innerWidth;
+
+var soundepic = 0;
 
 ctx.canvas.width = window.innerWidth;
 ctx.canvas.height = window.innerHeight;
@@ -51,7 +58,7 @@ class Asteroid{
 }
 
 function setup(){
-    for (var i = 0; i < 100;i++){
+    for (var i = 0; i < 10;i++){
         asteroids.push(new Asteroid(Math.floor(Math.random() * width), Math.floor(Math.random() * height), Math.floor(Math.random() * 1000 + 200)));
         asteroids[i].draw();
     }
@@ -86,10 +93,12 @@ function step(){
 						asteroids[i].has_bouced = true;
                         asteroids[x].has_bouced = true;
                         //relative to x
-
+						
 						var rlen = Math.sqrt(rx*rx+ry*ry);
 						var scale = rlen / asteroids[i].radius;
-                    
+						audio[soundepic].play();
+						soundepic++;
+						if (soundepic > 999){soundepic = 0;}
 
                         var intersectionx = asteroids[x].x + rx / scale;
                         var intersectiony = asteroids[x].y + ry / scale;
