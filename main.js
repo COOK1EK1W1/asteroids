@@ -12,7 +12,7 @@ ctx.fillRect(0,0,width, height);
 
 var asteroids = [];
 
-const G = 0.1;
+const G = 0.01;
 
 class Asteroid{
 
@@ -51,10 +51,14 @@ class Asteroid{
 }
 
 function setup(){
-    for (var i = 0; i < 3;i++){
-        asteroids.push(new Asteroid(Math.floor(Math.random() * width), Math.floor(Math.random() * height), Math.floor(Math.random() * 10000 + 300)));
+    for (var i = 0; i < 500;i++){
+        asteroids.push(new Asteroid(Math.floor(Math.random() * width), Math.floor(Math.random() * height), Math.floor(Math.random() * 10 + 5)));
         asteroids[i].draw();
     }
+	asteroids.push(new Asteroid(Math.floor(Math.random() * width), Math.floor(Math.random() * height), 10000));
+    asteroids[i].draw();
+	asteroids.push(new Asteroid(Math.floor(Math.random() * width), Math.floor(Math.random() * height), 10000));
+    asteroids[i].draw();
 }
 
 function step(){
@@ -69,14 +73,20 @@ function step(){
                 var b = (asteroids[i].y - asteroids[x].y);
                 var c = Math.sqrt(Math.abs(a * a + b * b));
                 if (c < asteroids[i].radius + asteroids[x].radius){
+					var rx = asteroids[i].x - asteroids[x].x;
+					var ry = asteroids[i].y - asteroids[x].y;
+					
+					var overlapscale = ((asteroids[i].radius + asteroids[x].radius) - c) / c;
+					
+					asteroids[i].x += overlapscale * rx;
+					asteroids[i].y += overlapscale * ry;
                     //x is the asteroid that is being hit
                     //i is the asteroid hitting x
 					if (asteroids[i].has_bouced == false){
 						asteroids[i].has_bouced = true;
                         asteroids[x].has_bouced = true;
                         //relative to x
-						var rx = asteroids[i].x - asteroids[x].x;
-						var ry = asteroids[i].y - asteroids[x].y;
+
 						var rlen = Math.sqrt(rx*rx+ry*ry);
 						var scale = rlen / asteroids[i].radius;
                     
@@ -88,7 +98,7 @@ function step(){
                         var y1 = (asteroids[i].yv * (asteroids[i].mass - asteroids[x].mass) + (2 * asteroids[x].mass * asteroids[x].yv)) / (asteroids[i].mass + asteroids[x].mass);
                         var x2 = (asteroids[x].xv * (asteroids[x].mass - asteroids[i].mass) + (2 * asteroids[i].mass * asteroids[i].xv)) / (asteroids[i].mass + asteroids[x].mass);
                         var y2 = (asteroids[x].yv * (asteroids[x].mass - asteroids[i].mass) + (2 * asteroids[i].mass * asteroids[i].yv)) / (asteroids[i].mass + asteroids[x].mass);
-
+						
                         asteroids[i].xv = x1;
                         asteroids[i].yv = y1;
                         asteroids[x].xv = x2;
