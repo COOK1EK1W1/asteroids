@@ -51,13 +51,13 @@ class Asteroid{
 }
 
 function setup(){
-    for (var i = 0; i < 500;i++){
-        asteroids.push(new Asteroid(Math.floor(Math.random() * width), Math.floor(Math.random() * height), Math.floor(Math.random() * 10 + 5)));
+    for (var i = 0; i < 100;i++){
+        asteroids.push(new Asteroid(Math.floor(Math.random() * width), Math.floor(Math.random() * height), Math.floor(Math.random() * 1000 + 200)));
         asteroids[i].draw();
     }
-	asteroids.push(new Asteroid(Math.floor(Math.random() * width), Math.floor(Math.random() * height), 10000));
+	asteroids.push(new Asteroid(Math.floor(Math.random() * width), Math.floor(Math.random() * height), 1000));
     asteroids[i].draw();
-	asteroids.push(new Asteroid(Math.floor(Math.random() * width), Math.floor(Math.random() * height), 10000));
+	asteroids.push(new Asteroid(Math.floor(Math.random() * width), Math.floor(Math.random() * height), 1000));
     asteroids[i].draw();
 }
 
