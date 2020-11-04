@@ -12,7 +12,7 @@ ctx.fillRect(0,0,width, height);
 
 var asteroids = [];
 
-const G = 0.01;
+const G = 0.05;
 
 class Asteroid{
 
